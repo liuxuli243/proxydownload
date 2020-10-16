@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>音乐试听下载</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="/js/layui/dist/css/layui.css"  media="all">
+  <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+</head>
+<body class="layui-layout-body">
+	<div class="demoTable">
+		<br/>
+	 　　　 歌名或者歌手名：
+	  <div class="layui-inline">
+	    <input class="layui-input" name="songname" id="songname" autocomplete="off" onkeypress="onkeyEnter()" th:value="${songname}">
+	  </div>
+	  <button class="layui-btn" id="searchBtn">搜索</button>
+	</div>
+	<div class="layui-form">
+	  <table class="layui-table" lay-even lay-skin="line">
+	    <!-- <colgroup>
+	      <col width="150">
+	      <col width="150">
+	      <col width="200">
+	      <col>
+	    </colgroup> -->
+	    <thead>
+	      <tr>
+	        <th>歌曲id</th>
+	        <th>歌曲名</th>
+	        <th>歌手名</th>
+	        <th>操作</th>
+	      </tr> 
+	    </thead>
+	    <tbody id="musictbody">
+	     	<tr th:each="info : ${songList}">
+	     		<td th:text="${info.songid}"></td>
+	     		<td th:text="${info.songname}"></td>
+	     		<td th:text="${info.singername}"></td>
+	     		<td><a style="cursor:pointer" th:onclick="audition([[${info.songid}]])">试听</a>
+	     			&nbsp;&nbsp;&nbsp;&nbsp;
+	     			<a style="cursor:pointer" th:onclick="downloadmusic([[${info.songid}]])">下载</a></td>
+	     	</tr>
+	    </tbody>
+	  </table>
+	</div>
+
+               
+<script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="/js/jquery.fileDownload.js"></script>
+<script src="/js/layui/dist/layui.js" charset="utf-8"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+	var layer;
+	layui.use(['layer', 'form'], function(){
+	  layer = layui.layer,
+	  form = layui.form;
+	});
+	$('#searchBtn').click(function(){
+		var songname = $('#songname').val();
+		if(songname){
+			/* $.get('/music/list',{songname:songname},function(data){
+				var html = '';
+				$.each(data,function(index,obj){
+					html += '<tr>';
+					html += '<td>'+obj.songid+'</td>';
+					html += '<td>'+obj.songname+'</td>';
+					html += '<td>'+obj.singername+'</td>';
+					html += '<td><a href="" onclick="downloadmusic('+obj.songid+')">下载</a></td>';
+					html += '</tr>';
+				});
+				$('#musictbody').html(html);
+			}); */
+			window.location.href="/?songname="+songname;
+		}
+	});
+	function downloadmusic(songid){
+		/* console.log(songid);
+		$.fileDownload('/music/download', {
+			 httpMethod: 'GET',
+			 data:{songid:songid},
+	         successCallback: function (url) {
+	        	
+	         },
+	         failCallback: function (html, url) {
+	        	
+	         }
+	     });  */
+		window.open('/music/download?songid='+songid,"_blank");
+	}
+	
+	function onkeyEnter(){
+		 var e = window.event || arguments.callee.caller.arguments[0];
+	     if(e && e.keyCode == 13){
+	  		$('#searchBtn').click();
+	     }
+	}
+	/*试听*/
+	function audition(songid){
+		layer.open({
+			title: '音乐试听',
+			area: ['600px', '400px'],
+			type: 2,
+			content: '/music/audition?songid=' + songid
+		}); 
+	}
+</script>
+
+</body>
+</html>
