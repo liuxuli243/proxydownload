@@ -35,14 +35,6 @@
 	      </tr> 
 	    </thead>
 	    <tbody id="musictbody">
-	     	<tr th:each="info : ${songList}">
-	     		<td th:text="${info.songid}"></td>
-	     		<td th:text="${info.songname}"></td>
-	     		<td th:text="${info.singername}"></td>
-	     		<td><a style="cursor:pointer" th:onclick="audition([[${info.songid}]])">试听</a>
-	     			&nbsp;&nbsp;&nbsp;&nbsp;
-	     			<a style="cursor:pointer" th:onclick="downloadmusic([[${info.songid}]])">下载</a></td>
-	     	</tr>
 	    </tbody>
 	  </table>
 	</div>
@@ -61,19 +53,20 @@
 	$('#searchBtn').click(function(){
 		var songname = $('#songname').val();
 		if(songname){
-			/* $.get('/music/list',{songname:songname},function(data){
+			 $.get('/music/list',{songname:songname},function(data){
 				var html = '';
 				$.each(data,function(index,obj){
 					html += '<tr>';
 					html += '<td>'+obj.songid+'</td>';
 					html += '<td>'+obj.songname+'</td>';
 					html += '<td>'+obj.singername+'</td>';
-					html += '<td><a href="" onclick="downloadmusic('+obj.songid+')">下载</a></td>';
+					html += '<td><a style="cursor:pointer" onclick="audition('+obj.songid+')">试听</a>'+
+					'&nbsp;&nbsp;&nbsp;&nbsp;<a href="" onclick="downloadmusic('+obj.songid+')">下载</a></td>';
 					html += '</tr>';
 				});
 				$('#musictbody').html(html);
-			}); */
-			window.location.href="/?songname="+songname;
+			}); 
+			//window.location.href="/?songname="+songname;
 		}
 	});
 	function downloadmusic(songid){
