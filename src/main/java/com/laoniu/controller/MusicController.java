@@ -11,6 +11,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -23,10 +25,12 @@ import com.laoniu.utils.JiuKuUtils;
 @RequestMapping("/music")
 public class MusicController {
 
+	Logger logger = LoggerFactory.getLogger(MusicController.class);
 
 	@RequestMapping("list")
 	@ResponseBody
-	public List<Music> list(String songname){
+	public List<Music> list(HttpServletRequest request,String songname){
+		logger.info(request.getRemoteAddr() + "搜索歌曲：" + songname);
 		return JiuKuUtils.getSongList(songname);
 	}
 	
@@ -37,7 +41,7 @@ public class MusicController {
 		String songname = musicInfo.getMname();
 		String singer = musicInfo.getSinger();
 		String filename = singer + "-" + songname + ".mp3";
-		System.out.println(request.getRemoteAddr() + "下载歌曲：" + filename);
+		logger.info(request.getRemoteAddr() + "下载歌曲：" + filename);
 		OutputStream out = null;
 		DataInputStream in = null;
 		try {
@@ -64,7 +68,7 @@ public class MusicController {
 		        	out.write(buffer, 0, count);
 		        }
 			 }else {
-				 System.out.println("连接失败");
+				 logger.info("连接失败");
 			 }
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -92,7 +96,7 @@ public class MusicController {
 	public String audition(int songid,HttpServletRequest request) {
 		MusicResponse musicInfo = JiuKuUtils.getMusicInfoBySongid(songid);
 		request.setAttribute("music", musicInfo);
-		System.out.println(request.getRemoteAddr() + "试听歌曲：" + musicInfo.getSinger() + "-" + musicInfo.getMname());
+		logger.info(request.getRemoteAddr() + "试听歌曲：" + musicInfo.getSinger() + "-" + musicInfo.getMname());
 		return "audition";
 	}
 	
