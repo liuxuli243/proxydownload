@@ -203,7 +203,7 @@ $(function () {
             bgArtworkUrl = $('#' + currArtwork).attr('src');
 
             bgArtwork.css({
-                'background-image': 'url(' + bgArtworkUrl + ')'
+                //'background-image': 'url(' + bgArtworkUrl + ')'
             });
         } else {
             if (flag == 0 || flag == 1)
@@ -239,6 +239,31 @@ $(function () {
             selectTrack(1);
         });
         playPauseButton.trigger('click');
+
+        audio.addEventListener("timeupdate",function(){
+        	var ct = audio.currentTime;
+        	var lrclength = musiclrc.length;
+        	var prev = '';
+        	var next = '';
+        	var lrxindex = "";
+        	$.each(musiclrc,function(index,obj){
+        		lrxindex = index;
+        		if(audio.currentTime >= obj.time){
+        			lrxindex = index;
+        			if(index > 0){
+        				prev = musiclrc[lrxindex - 1].lrc;
+        			}else{
+        				prev = '';
+        			}
+        			if(index < lrclength){
+        				next = musiclrc[lrxindex + 1].lrc;
+        			}else{
+        				next = '';
+        			}
+        			$('#lrctext').html(prev + '<br/> <strong>' + obj.lrc + '</strong><br/>' + next);
+        		}
+        	})
+        });
     }
 
     initPlayer();
