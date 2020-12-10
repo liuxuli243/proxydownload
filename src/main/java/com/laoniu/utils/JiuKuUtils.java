@@ -4,6 +4,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -154,7 +155,14 @@ public class JiuKuUtils {
 	
 	public static boolean istime(String timestr) {
 		if (timestr.indexOf(":") > -1 && timestr.indexOf(".") > 0) {
-			return true;
+			String miunite = timestr.substring(0, 2);
+			String second = timestr.substring(3, 5);
+			String mis = timestr.substring(6);
+			if(Pattern.matches("\\d+", miunite) && Pattern.matches("\\d+", second) && Pattern.matches("\\d+", mis)) {
+				return true;
+			}else {
+				return false;
+			}
 		}
 		return false;
 	}

@@ -196,6 +196,7 @@ $(function () {
             }
 
             albumName.text(currAlbum);
+            albumName.attr('title',currAlbum);
             trackName.text(currTrackName);
             albumArt.find('img.active').removeClass('active');
             $('#' + currArtwork).addClass('active');
