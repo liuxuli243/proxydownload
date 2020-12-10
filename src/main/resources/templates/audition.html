@@ -52,15 +52,24 @@
             </div>
         </div>
     </div>
+    <div id="lrctext" align="center" style="color: #000000;">
+    	<br/>
+    	歌词
+    </div>
 	<script type="text/javascript">
 	 var trackNames = [ '[[${music.singer}]]' ];//歌手
 	 var albumArtworks = ['_1'];
 	 var trackUrl = [ '[[${music.wma}]]' ];//路径
 	 var albums = [ '[[${music.mname}]]' ];//歌名
+	 var musiclrc =  [(${musiclrc})] ;//歌词
+	 console.log(musiclrc);
+	 //var lrcval = JSON.parse(musiclrc);
+	 
 	</script>
     <script src="/js/jquery-1.9.1.min.js"></script>
-    <script src="/js/index.js"></script>
-    
+    <script src="/js/index.js?v=2"></script>
+    <script type="text/javascript">
+    </script>
 </body>
 
 </html>

@@ -17,7 +17,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
 import com.laoniu.entity.Music;
+import com.laoniu.entity.MusicLrc;
 import com.laoniu.entity.MusicResponse;
 import com.laoniu.utils.JiuKuUtils;
 
@@ -95,7 +97,9 @@ public class MusicController {
 	@RequestMapping("audition")
 	public String audition(int songid,HttpServletRequest request) {
 		MusicResponse musicInfo = JiuKuUtils.getMusicInfoBySongid(songid);
+		List<MusicLrc> musiclrc = JiuKuUtils.getMusiclrc(songid);
 		request.setAttribute("music", musicInfo);
+		request.setAttribute("musiclrc", JSON.toJSONString(musiclrc));
 		logger.info(request.getRemoteAddr() + "试听歌曲：" + musicInfo.getSinger() + "-" + musicInfo.getMname());
 		return "audition";
 	}
