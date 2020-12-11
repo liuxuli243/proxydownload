@@ -256,7 +256,7 @@ $(function () {
         			}else{
         				prev = '';
         			}
-        			if(index < lrclength){
+        			if(index < lrclength-1){
         				next = musiclrc[lrxindex + 1].lrc;
         			}else{
         				next = '';
