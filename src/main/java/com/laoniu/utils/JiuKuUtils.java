@@ -44,8 +44,9 @@ public class JiuKuUtils {
 			Elements spans = element.getElementsByTag("span");
 			Elements songa = element.getElementsByTag("a");
 			String href = songa.get(0).attr("href");
+			//System.out.println(href);
 			//通过截取获取歌曲的ID
-			String songid = href.substring(24, href.length()-4);
+			String songid = href.substring(href.indexOf("play") + 5, href.length()-4);
 			//歌名
 			String songnames = spans.get(0).text();
 			//歌手名
